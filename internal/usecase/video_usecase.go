@@ -4,6 +4,7 @@ import (
 	"io"
 
 	"github.com/OmidRasouli/vod-streamer-edu/internal/domain/port"
+	"github.com/google/uuid"
 )
 
 type VideoUsecase struct {
@@ -16,7 +17,10 @@ func NewVideoUsecase(storage port.VideoStorage) *VideoUsecase {
 
 // Save saves video data using the storage interface
 func (uc *VideoUsecase) Save(filename string, reader io.Reader) error {
-	return uc.storage.Save(reader, filename)
+	// Generate a new UUID for the filename
+	id := uuid.New().String()
+
+	return uc.storage.Save(reader, id, filename)
 }
 
 // Open returns a ReadCloser for the video file
