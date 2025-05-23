@@ -6,6 +6,8 @@ import (
 
 	"github.com/OmidRasouli/vod-streamer-edu/configs"
 	"github.com/OmidRasouli/vod-streamer-edu/internal/controller/http"
+	"github.com/OmidRasouli/vod-streamer-edu/internal/infrastructure/storage"
+	"github.com/OmidRasouli/vod-streamer-edu/internal/usecase"
 )
 
 func main() {
@@ -15,8 +17,11 @@ func main() {
 }
 
 func runRouter(cfg *configs.Config) {
-	// Set up HTTP server
-	router := http.NewRouter()
+	storagePath := cfg.Storage.RawVideoPath
+	localStorage := storage.NewLocalStorage(storagePath)
+	videoUseCase := usecase.NewVideoUsecase(localStorage)
+	uploadHandler := http.NewUploadHandler(videoUseCase)
+	router := http.NewRouter(uploadHandler)
 	port := cfg.GetServerConfig().Port
 
 	if err := router.Run(":" + strconv.Itoa(port)); err != nil {
