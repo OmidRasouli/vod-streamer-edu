@@ -19,8 +19,8 @@ func NewLocalStorage(basePath string) port.VideoStorage {
 	}
 }
 
-func (s *LocalStorage) Save(reader io.Reader, filename string) error {
-	fullPath := filepath.Join(s.BasePath, filename)
+func (s *LocalStorage) Save(reader io.Reader, path ...string) error {
+	fullPath := filepath.Join(append([]string{s.BasePath}, path...)...)
 
 	if err := os.MkdirAll(filepath.Dir(fullPath), 0755); err != nil {
 		return fmt.Errorf("failed to create directories: %w", err)
@@ -48,8 +48,8 @@ func (s *LocalStorage) Open(filename string) (io.ReadCloser, error) {
 	return file, nil
 }
 
-func (s *LocalStorage) GetPath(filename string) (string, error) {
-	fullPath := filepath.Join(s.BasePath, filename)
+func (s *LocalStorage) GetPath(path ...string) (string, error) {
+	fullPath := filepath.Join(append([]string{s.BasePath}, path...)...)
 
 	if _, err := os.Stat(fullPath); os.IsNotExist(err) {
 		return "", fmt.Errorf("file does not exist: %s", fullPath)
