@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+ffmpeg:
+  cpu_core_limit: 0.8
+  cpu_core_request: 0.5
+
+storage:
+  path: "./public/videos/raw"
