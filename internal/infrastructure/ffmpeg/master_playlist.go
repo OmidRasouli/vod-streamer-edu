@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func (s *FFmpegService) GenerateMasterPlaylist(outputDir string) error {
+func (s *FFmpegService) generateMasterPlaylist(outputDir string) error {
 	masterFilePath := filepath.Join(outputDir, "master.m3u8")
 
 	masterFile, err := os.Create(masterFilePath)
@@ -25,9 +25,9 @@ func (s *FFmpegService) GenerateMasterPlaylist(outputDir string) error {
 		return err
 	}
 
-	for _, q := range s.VideoQualities {
+	for _, q := range s.videoQualities {
 		bandwidth := extractBandwidth(q.Bitrate)
-		line := fmt.Sprintf("#EXT-X-STREAM-INF:BANDWIDTH=%d,RESOLUTION=%s\nnormal_hls/%s/index.m3u8\n", bandwidth, q.LandScape(), q.Name)
+		line := fmt.Sprintf("#EXT-X-STREAM-INF:BANDWIDTH=%d,RESOLUTION=%s\n%s/index.m3u8\n", bandwidth, q.LandScape(), q.Name)
 		if _, err := writer.WriteString(line); err != nil {
 			return err
 		}
