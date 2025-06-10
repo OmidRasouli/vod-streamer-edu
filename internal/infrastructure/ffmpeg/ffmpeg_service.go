@@ -3,12 +3,14 @@ package service
 import ffmpeg_go "github.com/u2takey/ffmpeg-go"
 
 type FFmpegService struct {
-	VideoQualities []VideoQuality
+	videoQualities []VideoQuality
+	cpuCoreRequest float32
+	cpuCoreLimit   float32
 }
 
-func NewFFmpegService() *FFmpegService {
+func NewFFmpegService(cpuCoreRequest float32, cpuCoreLimit float32) *FFmpegService {
 	return &FFmpegService{
-		VideoQualities: []VideoQuality{
+		videoQualities: []VideoQuality{
 			{"1080p", 1920, 1080, "4500k", "4700k", "6000k"},
 			{"720p", 1280, 720, "2500k", "2675k", "3750k"},
 			{"480p", 854, 480, "1000k", "1075k", "1500k"},
@@ -16,6 +18,8 @@ func NewFFmpegService() *FFmpegService {
 			{"240p", 426, 240, "400k", "450k", "600k"},
 			{"144p", 256, 144, "250k", "275k", "400k"},
 		},
+		cpuCoreRequest: cpuCoreRequest,
+		cpuCoreLimit:   cpuCoreLimit,
 	}
 }
 
