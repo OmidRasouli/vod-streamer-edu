@@ -6,11 +6,12 @@ import (
 	"log"
 
 	"github.com/OmidRasouli/vod-streamer-edu/internal/domain/model"
+	"github.com/OmidRasouli/vod-streamer-edu/internal/entity"
 	ffmpeg_go "github.com/u2takey/ffmpeg-go"
 )
 
-func (s *FFmpegService) GetVideoDetails(path string) (*model.VideoData, error) {
-	videoDetailsJSON, err := ffmpeg_go.Probe(path)
+func (s *FFmpegService) GetVideoDetails(path entity.Path) (*model.VideoData, error) {
+	videoDetailsJSON, err := ffmpeg_go.Probe(path.String())
 	if err != nil {
 		log.Printf("FFprobe error: %v", err)
 		return nil, fmt.Errorf("failed to probe video: %w", err)
