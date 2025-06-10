@@ -6,4 +6,4 @@ ffmpeg:
   cpu_core_request: 0.5
 
 storage:
-  path: "./public/videos/raw"
+  raw_video_path: "./public/videos/raw"
