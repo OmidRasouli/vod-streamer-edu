@@ -54,10 +54,6 @@ type Stream struct {
 	} `json:"tags"`
 }
 
-func (s Stream) IsPortrait() bool {
-	return s.Height > s.Width
-}
-
 type Format struct {
 	Filename       string `json:"filename"`
 	NbStreams      int    `json:"nb_streams"`
@@ -81,4 +77,13 @@ type Format struct {
 type VideoData struct {
 	Streams []Stream `json:"streams"`
 	Format  Format   `json:"format"`
+}
+
+func (v VideoData) IsPortrait() bool {
+	for _, stream := range v.Streams {
+		if stream.CodecType == "video" {
+			return stream.Height > stream.Width
+		}
+	}
+	return false // No video stream found, cannot determine orientation
 }
