@@ -1,9 +1,42 @@
 # Building a VOD Platform with Go and FFmpeg (Tutorial Series, Article 3)
 
+<p align="center">
+  <img src="public/cover.jpg" alt="VOD Streamer EDU Cover" width="100%"/>
+</p>
+
+<p align="center">
+  <img src="public/logo.png" alt="VOD Streamer EDU" width="200"/>
+</p>
+
+<p align="center">
+  <a href="https://medium.com/@o.rasouli92"><img src="https://img.shields.io/badge/Medium-@o.rasouli92-violet?logo=medium"></a>
+  <img src="https://img.shields.io/badge/go-1.24-blue?logo=Go&logoColor=white">
+  <img src="https://img.shields.io/badge/license-MIT-green">
+  <img src="https://img.shields.io/badge/architecture-clean-blueviolet" alt="Clean Architecture"/>
+  <img src="https://img.shields.io/badge/ffmpeg-enabled-brightgreen?logo=ffmpeg&logoColor=white" alt="FFmpeg"/>
+  <img src="https://img.shields.io/badge/HLS-activated-orange?logo=streamlit&logoColor=white" alt="HLS Activated"/>
+</p>
+
+# Vuilding a VOD Platform with Go and FFmpeg (Tutorial Series, Article 3)
+
 Welcome to **VOD Streamer EDU**, an educational project demonstrating how to build a Video On Demand (VOD) streaming backend in Go using Clean Architecture and FFmpeg.
 
 This repository accompanies the **third article** in my Medium tutorial series:  
 👉 [Read more on Medium – @o.rasouli92](https://medium.com/@o.rasouli92)
+
+---
+
+## Table of Contents
+- [Building a VOD Platform with Go and FFmpeg (Tutorial Series, Article 3)](#building-a-vod-platform-with-go-and-ffmpeg-tutorial-series-article-3)
+- [Vuilding a VOD Platform with Go and FFmpeg (Tutorial Series, Article 3)](#vuilding-a-vod-platform-with-go-and-ffmpeg-tutorial-series-article-3)
+  - [Table of Contents](#table-of-contents)
+  - [✨ Features](#-features)
+  - [🚀 Quick Start](#-quick-start)
+  - [📤 Upload a Video](#-upload-a-video)
+  - [📺 Test HLS Streaming](#-test-hls-streaming)
+  - [🗂️ Project Structure](#️-project-structure)
+  - [📖 About the Series](#-about-the-series)
+  - [📝 License](#-license)
 
 ---
 
@@ -45,6 +78,8 @@ Upload a video for processing and HLS conversion:
 curl -X POST http://localhost:8080/upload \
   -F "video=@/vod-streamer-edu/public/test/Pixar.Popcorn.S01E04.1080p.WEB-DL.mkv"
 ```
+
+> **Tip:** Use the provided curl command to quickly test video uploads!
 
 ---
 
@@ -94,5 +129,3 @@ Read the full series: [@o.rasouli92 on Medium](https://medium.com/@o.rasouli92)
 ## 📝 License
 
 MIT License © 2025 Omid Rasouli
-
----
