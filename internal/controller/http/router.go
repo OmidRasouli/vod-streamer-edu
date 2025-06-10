@@ -9,7 +9,7 @@ import (
 func NewRouter(uploadHandler *UploadHandler) *gin.Engine {
 	router := gin.Default()
 
-	// Add simple health check
+	// Add a simple health check
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "OK"})
 	})
