@@ -20,8 +20,8 @@ func runRouter(cfg *configs.Config) {
 	storagePath := cfg.Storage.RawVideoPath
 	localStorage := storage.NewLocalStorage(storagePath)
 	videoUseCase := usecase.NewVideoUsecase(localStorage)
-	uploadHandler := http.NewUploadHandler(videoUseCase)
-	router := http.NewRouter(uploadHandler)
+	videoController := http.NewVideoController(videoUseCase)
+	router := http.NewRouter(videoController)
 	port := cfg.GetServerConfig().Port
 
 	if err := router.Run(":" + strconv.Itoa(port)); err != nil {

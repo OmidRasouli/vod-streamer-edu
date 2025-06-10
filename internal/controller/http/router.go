@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewRouter(uploadHandler *UploadHandler) *gin.Engine {
+func NewRouter(videoController *VideoController) *gin.Engine {
 	router := gin.Default()
 
 	// Add a simple health check
@@ -14,7 +14,7 @@ func NewRouter(uploadHandler *UploadHandler) *gin.Engine {
 		c.JSON(http.StatusOK, gin.H{"status": "OK"})
 	})
 
-	router.POST("/upload", uploadHandler.UploadVideo)
+	router.POST("/upload", videoController.UploadVideo)
 
 	return router
 }

@@ -7,15 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UploadHandler struct {
+type VideoController struct {
 	VideoUsecase *usecase.VideoUsecase
 }
 
-func NewUploadHandler(videoUsecase *usecase.VideoUsecase) *UploadHandler {
-	return &UploadHandler{VideoUsecase: videoUsecase}
+func NewVideoController(videoUsecase *usecase.VideoUsecase) *VideoController {
+	return &VideoController{VideoUsecase: videoUsecase}
 }
 
-func (h *UploadHandler) UploadVideo(c *gin.Context) {
+func (h *VideoController) UploadVideo(c *gin.Context) {
 	file, header, err := c.Request.FormFile("video")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Video file is required"})
