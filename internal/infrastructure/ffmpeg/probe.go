@@ -1,0 +1,34 @@
+package service
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+
+	"github.com/OmidRasouli/vod-streamer-edu/internal/domain/model"
+	"github.com/OmidRasouli/vod-streamer-edu/internal/entity"
+	ffmpeg_go "github.com/u2takey/ffmpeg-go"
+)
+
+// GetVideoDetails uses FFprobe to extract metadata from a video file.
+// It runs FFprobe on the given path, parses the JSON output into a VideoData struct,
+// and returns detailed information about the video streams and format.
+// This is useful for validating uploads and preparing transcoding settings.
+func (s *FFmpegService) GetVideoDetails(path entity.Path) (*model.VideoData, error) {
+	videoDetailsJSON, err := ffmpeg_go.Probe(path.String())
+	if err != nil {
+		log.Printf("FFprobe error: %v", err)
+		return nil, fmt.Errorf("failed to probe video: %w", err)
+	}
+
+	var videoData model.VideoData
+	if err := json.Unmarshal([]byte(videoDetailsJSON), &videoData); err != nil {
+		return nil, fmt.Errorf("failed to parse video data: %w", err)
+	}
+
+	if len(videoData.Streams) == 0 {
+		return nil, fmt.Errorf("no video stream found")
+	}
+
+	return &videoData, nil
+}
