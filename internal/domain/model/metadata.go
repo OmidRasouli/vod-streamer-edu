@@ -1,15 +1,18 @@
 package model
 
+// Stream represents a single media stream (video, audio, etc.) in a media file.
+// This struct is designed to match the JSON output from FFmpeg's metadata.
+// It contains detailed information about the stream, such as codec, resolution, frame rate, and tags.
 type Stream struct {
 	Index              int    `json:"index"`
 	CodecName          string `json:"codec_name"`
 	CodecLongName      string `json:"codec_long_name"`
 	Profile            string `json:"profile"`
-	CodecType          string `json:"codec_type"`
+	CodecType          string `json:"codec_type"` // "video", "audio", etc.
 	CodecTagString     string `json:"codec_tag_string"`
 	CodecTag           string `json:"codec_tag"`
-	Width              int    `json:"width"`
-	Height             int    `json:"height"`
+	Width              int    `json:"width"`  // Video width in pixels
+	Height             int    `json:"height"` // Video height in pixels
 	CodedWidth         int    `json:"coded_width"`
 	CodedHeight        int    `json:"coded_height"`
 	ClosedCaptions     int    `json:"closed_captions"`

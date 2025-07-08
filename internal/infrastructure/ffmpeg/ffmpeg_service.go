@@ -2,12 +2,16 @@ package service
 
 import ffmpeg_go "github.com/u2takey/ffmpeg-go"
 
+// FFmpegService provides methods for configuring and running FFmpeg video processing.
+// It stores supported video qualities and CPU resource limits for transcoding.
 type FFmpegService struct {
 	videoQualities []VideoQuality
 	cpuCoreRequest float32
 	cpuCoreLimit   float32
 }
 
+// NewFFmpegService constructs a new FFmpegService with the given CPU resource settings.
+// It initializes a list of common video quality profiles for adaptive streaming.
 func NewFFmpegService(cpuCoreRequest float32, cpuCoreLimit float32) *FFmpegService {
 	return &FFmpegService{
 		videoQualities: []VideoQuality{
@@ -23,6 +27,9 @@ func NewFFmpegService(cpuCoreRequest float32, cpuCoreLimit float32) *FFmpegServi
 	}
 }
 
+// getFFmpegArgs builds a set of FFmpeg arguments for transcoding a video to a specific quality.
+// It configures video and audio codecs, bitrates, segmenting for HLS, and applies scaling filters.
+// This function is useful for generating consistent, adaptive streaming outputs.
 func (s *FFmpegService) getFFmpegArgs(q VideoQuality, segmentPath string, filters []string) ffmpeg_go.KwArgs {
 	return ffmpeg_go.KwArgs{
 		"c:v":                  "h264",                          // Use H.264 video codec

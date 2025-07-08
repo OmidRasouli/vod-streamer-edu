@@ -9,14 +9,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// VideoController handles HTTP requests related to video operations.
+// It acts as a bridge between HTTP layer and business logic (usecase).
 type VideoController struct {
 	VideoUsecase *usecase.VideoUsecase
 }
 
+// NewVideoController creates a new VideoController with the given usecase dependency.
 func NewVideoController(videoUsecase *usecase.VideoUsecase) *VideoController {
 	return &VideoController{VideoUsecase: videoUsecase}
 }
 
+// UploadVideo handles video upload requests.
+// It expects a multipart form with a "video" file field.
+// The uploaded file is passed to the usecase for processing and saving.
+// Responds with success or error message.
 func (v *VideoController) UploadVideo(c *gin.Context) {
 	file, header, err := c.Request.FormFile("video")
 	if err != nil {
@@ -35,6 +42,8 @@ func (v *VideoController) UploadVideo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Video uploaded successfully", "filename": filename})
 }
 
+// GetMaster serves the master playlist (master.m3u8) for a given video ID.
+// This is used by HLS players to get available video qualities.
 func (v *VideoController) GetMaster(c *gin.Context) {
 	fileID := c.Param("id")
 
@@ -42,6 +51,8 @@ func (v *VideoController) GetMaster(c *gin.Context) {
 	c.File(video)
 }
 
+// Stream serves individual video segments or playlists for a given video ID and quality.
+// Validates the file extension to allow only .m3u8 and .ts files for security.
 func (v *VideoController) Stream(c *gin.Context) {
 	fileID := c.Param("id")
 	quality := c.Param("quality")

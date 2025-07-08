@@ -9,6 +9,11 @@ import (
 	ffmpeg_go "github.com/u2takey/ffmpeg-go"
 )
 
+// Transcode processes the input video file into multiple HLS renditions for adaptive streaming.
+// For each supported video quality, it creates an output directory, generates TS segments and a playlist.
+// It applies scaling filters based on the video's orientation (portrait or landscape).
+// After transcoding all qualities, it generates a master playlist referencing all variants.
+// Returns an error if any step fails.
 func (s *FFmpegService) Transcode(input entity.Path, isPortrait bool) error {
 	for _, q := range s.videoQualities {
 		outputPath := input.Parent().String()
@@ -24,6 +29,7 @@ func (s *FFmpegService) Transcode(input entity.Path, isPortrait bool) error {
 			scaleFilter = q.ScaleVertically()
 		}
 
+		// Build and run the FFmpeg command for this quality.
 		cmd := ffmpeg_go.Input(input.String()).
 			WithCpuCoreRequest(s.cpuCoreRequest).
 			WithCpuCoreLimit(s.cpuCoreLimit).
@@ -38,6 +44,7 @@ func (s *FFmpegService) Transcode(input entity.Path, isPortrait bool) error {
 		}
 	}
 
+	// Generate the HLS master playlist referencing all created renditions.
 	if err := s.generateMasterPlaylist(input.Parent().String()); err != nil {
 		return fmt.Errorf("failed to generate master playlist: %w", err)
 	}

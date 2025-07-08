@@ -17,7 +17,9 @@
   <img src="https://img.shields.io/badge/HLS-activated-orange?logo=streamlit&logoColor=white" alt="HLS Activated"/>
 </p>
 
-# Vuilding a VOD Platform with Go and FFmpeg (Tutorial Series, Article 3)
+---
+
+## Overview
 
 Welcome to **VOD Streamer EDU**, an educational project demonstrating how to build a Video On Demand (VOD) streaming backend in Go using Clean Architecture and FFmpeg.
 
@@ -28,13 +30,15 @@ This repository accompanies the **third article** in my Medium tutorial series:
 
 ## Table of Contents
 - [Building a VOD Platform with Go and FFmpeg (Tutorial Series, Article 3)](#building-a-vod-platform-with-go-and-ffmpeg-tutorial-series-article-3)
-- [Vuilding a VOD Platform with Go and FFmpeg (Tutorial Series, Article 3)](#vuilding-a-vod-platform-with-go-and-ffmpeg-tutorial-series-article-3)
+  - [Overview](#overview)
   - [Table of Contents](#table-of-contents)
   - [✨ Features](#-features)
   - [🚀 Quick Start](#-quick-start)
   - [📤 Upload a Video](#-upload-a-video)
   - [📺 Test HLS Streaming](#-test-hls-streaming)
   - [🗂️ Project Structure](#️-project-structure)
+  - [🔌 API Reference](#-api-reference)
+  - [⚙️ Configuration](#️-configuration)
   - [📖 About the Series](#-about-the-series)
   - [📝 License](#-license)
 
@@ -104,13 +108,49 @@ curl -X POST http://localhost:8080/upload \
 cmd/server/                 # Application entrypoint
 configs/                    # Configuration files
 internal/
-  controller/http/          # HTTP handlers
-  domain/                   # Domain models and ports
-  entity/                   # Core entities
-  infrastructure/           # FFmpeg and storage
-  usecase/                  # Application use cases
+  controller/http/          # HTTP handlers (API endpoints)
+  domain/                   # Domain models and ports (interfaces)
+  entity/                   # Core entities (e.g., Path)
+  infrastructure/           # FFmpeg and storage implementations
+  usecase/                  # Application use cases (business logic)
 public/                     # Static files and test videos
 ```
+
+---
+
+## 🔌 API Reference
+
+| Endpoint                                 | Method | Description                                 |
+|-------------------------------------------|--------|---------------------------------------------|
+| `/upload`                                | POST   | Upload a video file (multipart form, field: `video`) |
+| `/stream/{id}/master.m3u8`               | GET    | Get the HLS master playlist for a video     |
+| `/stream/{id}/{quality}/{file}`          | GET    | Get a specific HLS segment or playlist      |
+| `/health`                                | GET    | Health check endpoint                       |
+
+**Example Upload Response:**
+```json
+{
+  "message": "Video uploaded successfully",
+  "filename": "Pixar.Popcorn.S01E04.1080p.WEB-DL.mkv"
+}
+```
+
+---
+
+## ⚙️ Configuration
+
+- Main configuration file: `configs/config.yaml`
+- You can set server port, storage paths, and FFmpeg resource limits here.
+- Example:
+  ```yaml
+  server:
+    port: 8080
+  storage:
+    raw_video_path: ./videos
+  ffmpeg:
+    cpu_core_limit: 0.8
+    cpu_core_request: 0.5
+  ```
 
 ---
 

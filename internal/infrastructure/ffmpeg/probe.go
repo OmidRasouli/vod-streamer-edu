@@ -10,6 +10,10 @@ import (
 	ffmpeg_go "github.com/u2takey/ffmpeg-go"
 )
 
+// GetVideoDetails uses FFprobe to extract metadata from a video file.
+// It runs FFprobe on the given path, parses the JSON output into a VideoData struct,
+// and returns detailed information about the video streams and format.
+// This is useful for validating uploads and preparing transcoding settings.
 func (s *FFmpegService) GetVideoDetails(path entity.Path) (*model.VideoData, error) {
 	videoDetailsJSON, err := ffmpeg_go.Probe(path.String())
 	if err != nil {
